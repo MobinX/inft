@@ -1,16 +1,17 @@
-const withPWA = require("next-pwa");
-const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
+const withPWA = require('next-pwa')
 
 module.exports = withPWA({
+  reactStrictMode: true,
   pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === "development", // disabled in develop mode
+    dest: 'public',
+    disable: process.env.NODE_ENV === "development",
   },
   webpack(config) {
-    config.plugins.push(new WindiCSSWebpackPlugin())
-    return config
-  },
-  
-});
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
+
+    return config;
+  }
+})
